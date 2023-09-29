@@ -91,7 +91,7 @@ def run(train_file_name: str):
     model.eval()
     with torch.no_grad():
         z = model(x, train_pos_edge_index, train_neg_edge_index)
-    np.savetxt('{0}/embeddings/{1}-embedding.csv'.format(network,train_file_name[:-4]), z.detach().cpu().numpy(), fmt='%.2f', delimiter=',')
+    # np.savetxt('{0}/embeddings/{1}-embedding.csv'.format(network,train_file_name[:-4]), z.detach().cpu().numpy(), fmt='%.2f', delimiter=',')
     res_dict.update(test(z, test_pos_edge_index, test_neg_edge_index))
 
     res_dict['train_file'] = train_file_name
