@@ -5,7 +5,7 @@ import math
 import csv
 import os
 
-dataname = 'Slashdot'
+dataname = 'bitcoin-otc'
 
 num = 1
 
@@ -15,12 +15,8 @@ if not os.path.exists('{}/trains'.format(dataname)):
     os.makedirs('{}/trains'.format(dataname))
 if not os.path.exists('{}/tests'.format(dataname)):
     os.makedirs('{}/tests'.format(dataname))
-if not os.path.exists('{}/trains_Augmentation'.format(dataname)):
-    os.makedirs('{}/trains_Augmentation'.format(dataname))
 if not os.path.exists('{}/models'.format(dataname)):
     os.makedirs('{}/models'.format(dataname))
-    if not os.path.exists('{}/embeddings'.format(dataname)):
-        os.makedirs('{}/embeddings'.format(dataname))
 
 pos_edges,neg_edges=[],[]
 with open('networks/{}.csv'.format(dataname), 'r') as data, \
@@ -37,11 +33,9 @@ with open('networks/{}.csv'.format(dataname), 'r') as data, \
         else:
             neg_edges.append(row)
 
-    # 随机打乱数据集
     np.random.shuffle(pos_edges)
     np.random.shuffle(neg_edges)
 
-    # 划分数据集
     split_index_pos = round(len(pos_edges) * 0.8)
     split_index_neg = round(len(neg_edges) * 0.8)
     train_data, test_data = pos_edges[:split_index_pos], pos_edges[split_index_pos:]
