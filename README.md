@@ -19,17 +19,17 @@ dotmap==1.3.30
 ## Experimental steps
 1. Train an SGCN model using the original training set to generate node embeddings.
 ```
-python sgcn.py
+python embeddingsGenerator.py
 ```
 2. Use the node embeddings to generate candidate lists for deleting positive edges, deleting negative edges, adding positive edges, and adding negative edges.
 ```
-python getSomftmaxCsv.py
+python candidatesGenerator.py
 ```
 3. Set probability threshold parameters and implement data augmentation on the training set data based on the candidate lists.
 ```
-python augBySoftmax.py
+python dataAugmentation.py
 ```
 4. Calculate the difficulty scores of all edges of the training set after data augmentation, and set up a training plan.Use the training set after data augmentation to train baselines according to the training plan.
 ```
-python sgcn_softmax_initial.py
+python sgcn_SGA.py
 ```
