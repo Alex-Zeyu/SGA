@@ -7,18 +7,13 @@ Signed Graph Neural Networks (SGNNs) play a crucial role in the analysis of intr
 
 ## Requirements
 ```
-matplotlib==3.1.1
-numpy==1.17.1
-torch==1.2.0
-scipy==1.3.1
-torchvision==0.4.0
-texttable==1.6.2
-networkx==2.4
-numba==0.48.0
-Pillow==7.0.0
-scikit_learn==0.22.1
-skimage==0.0
-tensorboardX==2.0
+numpy==1.24.2
+scipy==1.11.2
+pandas==2.1.0
+torch==1.12.0
+torch_geometric==2.3.1
+tqdm==4.65.0
+dotmap==1.3.30
 ```
 
 ## Experimental steps
