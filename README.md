@@ -12,6 +12,7 @@ scipy==1.11.2
 pandas==2.1.0
 torch==1.12.0
 torch_geometric==2.3.1
+torch-geometric-signed-directed==0.22.1
 tqdm==4.65.0
 dotmap==1.3.30
 ```
