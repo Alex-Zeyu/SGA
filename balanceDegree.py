@@ -1,10 +1,5 @@
 import numpy as np
 from scipy import sparse as sp
-import networkx as nx
-import random
-import math
-import csv
-import os
 
 
 def balanceDegree(A):
@@ -16,22 +11,12 @@ def balanceDegree(A):
     return (x + y) / (2 * y)
 
 
-# def edgeBalanceDegree(i, j, A):
-#     abs_A = A * A
-#     abs_A = abs_A + abs_A.T
-#     A = A + A.T
-#     x = np.linalg.matrix_power(A, 2)[i][j]  # 正-负
-#     y = np.linalg.matrix_power(abs_A, 2)[i][j]  # 总三角形
-#     if y == 0:
-#         return -1
-
-
 def edgesBalanceDegree(A):
     abs_A = A * A
     abs_A = abs_A + abs_A.T
     A1 = A + A.T
-    x = np.linalg.matrix_power(A1, 2)  # 二跳 正-负
-    y = np.linalg.matrix_power(abs_A, 2)  # 二跳
+    x = np.linalg.matrix_power(A1, 2)  #
+    y = np.linalg.matrix_power(abs_A, 2)  #
     x = x * A
     x[y == 0] = 1
     y[y == 0] = 1
@@ -66,3 +51,4 @@ def findAndDel(e, edges):
         if int(float(e[0]))==int(float(edge[0])) and int(float(e[1]))==int(float(edge[1])):
             del edges[i]
             return edges
+
