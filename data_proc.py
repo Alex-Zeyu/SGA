@@ -1,3 +1,6 @@
+import os
+import random
+import numpy as np
 import torch
 import pandas as pd
 
@@ -16,3 +19,16 @@ def collect_results(res_list: list, save_res: bool = True, suffix: str = ''):
     if save_res:
         res_df.to_csv(f'results/result_{suffix}.csv')
     return res_df
+
+
+def setup_seed(seed = 0):
+    torch.manual_seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    # os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.enabled = True
