@@ -2,12 +2,39 @@
 
 >In this project, we propose a graph augmentaiton method for Signed Graph Neural Networks
 
-Signed Graph Neural Networks (SGNNs) play a crucial role in the analysis of intricate patterns within real-world signed graphs, where both positive and negative links coexist. Nevertheless, there are three critical challenges in current signed graph representation learning using SGNNs. First, signed graphs exhibit significant sparsity, leaving numerous latent structures uncovered. Second, SGNN models encounter difficulties in deriving proper representations from unbalanced triangles. Finally, real-world signed graph datasets often lack supplementary information, such as node labels and node features. These challenges collectively constrain the representation learning potential of SGNN. We aim to address these issues through data augmentation techniques. However, the majority of graph data augmentation methods are designed for unsigned graphs, making them unsuitable for direct application to signed graphs. To the best of our knowledge, there are currently no data augmentation methods specifically tailored for signed graphs. In this paper, we propose a novel \underline{S}igned \underline{G}raph \underline{A}ugmentation framework, \textbf{SGA}. This framework primarily consists of three components. In the first part, we utilize the SGNN model to encode the signed graph, extracting latent structural information in the encoding space, which is then used as candidate augmentation structures. In the second part, we analyze these candidate samples (i.e., edges), selecting the most beneficial candidate edges to modify the original training set. In the third part, we introduce a new augmentation perspective, which assigns training samples different training difficulty, thus enabling the design of new training strategy. Extensive experiments on six real-world datasets, i.e., Bitcoin-alpha, Bitcoin-otc, Epinions, Slashdot, Wiki-elec and Wiki-RfA show that SGA improve the performance on multiple benchmarks. Our method outperforms baselines by up to 22.2\% in terms of AUC for SGCN on Wiki-RfA, 33.3\% in terms of F1-binary, 48.8\% in terms of F1-micro, and 36.3\% in terms of F1-macro for GAT on Bitcoin-alpha in link sign prediction.
+## Abstract
+Signed Graph Neural Networks (SGNNs) play a crucial role in the analysis of intricate patterns within real-world signed graphs, where both positive and negative links coexist. Nevertheless, there are three critical challenges in current signed graph representation learning using SGNNs. First, signed graphs exhibit significant sparsity, leaving numerous latent structures uncovered. Second, SGNN models encounter difficulties in deriving proper representations from unbalanced triangles. Finally, real-world signed graph datasets often lack supplementary information, such as node labels and node features. These challenges collectively constrain the representation learning potential of SGNN. We aim to address these issues through data augmentation techniques. However, the majority of graph data augmentation methods are designed for unsigned graphs, making them unsuitable for direct application to signed graphs. To the best of our knowledge, there are currently no data augmentation methods specifically tailored for signed graphs. In this paper, we propose a novel <ins>S</ins>igned <ins>G</ins>raph <ins>A</ins>ugmentation framework, **SGA**. This framework primarily consists of three components. In the first part, we utilize the SGNN model to encode the signed graph, extracting latent structural information in the encoding space, which is then used as candidate augmentation structures. In the second part, we analyze these candidate samples (i.e., edges), selecting the most beneficial candidate edges to modify the original training set. In the third part, we introduce a new augmentation perspective, which assigns training samples different training difficulty, thus enabling the design of new training strategy. Extensive experiments on six real-world datasets, i.e., Bitcoin-alpha, Bitcoin-otc, Epinions, Slashdot, Wiki-elec and Wiki-RfA show that SGA improve the performance on multiple benchmarks. Our method outperforms baselines by up to 22.2% in terms of AUC for SGCN on Wiki-RfA, 33.3% in terms of F1-binary, 48.8% in terms of F1-micro, and 36.3% in terms of F1-macro for GAT on Bitcoin-alpha in link sign prediction.
 
-Experimental steps:
+## Requirements
+```
+matplotlib==3.1.1
+numpy==1.17.1
+torch==1.2.0
+scipy==1.3.1
+torchvision==0.4.0
+texttable==1.6.2
+networkx==2.4
+numba==0.48.0
+Pillow==7.0.0
+scikit_learn==0.22.1
+skimage==0.0
+tensorboardX==2.0
+```
+
+## Experimental steps
 1. Train an SGCN model using the original training set to generate node embeddings.
+```
+python sgcn.py
+```
 2. Use the node embeddings to generate candidate lists for deleting positive edges, deleting negative edges, adding positive edges, and adding negative edges.
+```
+python getSomftmaxCsv.py
+```
 3. Set probability threshold parameters and implement data augmentation on the training set data based on the candidate lists.
-4. Calculate the difficulty scores of all edges of the training set after data augmentation, and set up a training plan.
-5. Use the training set after data augmentation to train baselines according to the training plan.
-
+```
+python augBySoftmax.py
+```
+4. Calculate the difficulty scores of all edges of the training set after data augmentation, and set up a training plan.Use the training set after data augmentation to train baselines according to the training plan.
+```
+python sgcn_softmax_initial.py
+```
