@@ -1,23 +1,28 @@
 import os
 import torch
-from dotmap import DotMap
 from torch_geometric import seed_everything
 from torch_geometric.nn import SignedGCN
 from tqdm import tqdm
-from data_proc import load_graph, collect_results
+from data_proc import load_graph
+import numpy as np
+import argparse
 
-network='bitcoin-otc'
-num=1
+parser = argparse.ArgumentParser()
+parser.add_argument('-d','--dataset', type=str, default='bitcoin-alpha',
+                      choices=['bitcoin-alpha', 'Epinions', 'bitcoin-otc', 'Slashdot', 'wiki-elec', 'wiki-RfA'])
+parser.add_argument('-n','--num', type=int, default=1, choices=[1,2,3,4,5])
+parser.add_argument('-la','--num_layers', type=int, default=2)
+parser.add_argument('-ch','--channels', type=int, default=64)
+parser.add_argument('-lr','--lr', type=float, default=1e-2)
+parser.add_argument('-e','--epochs', type=int, default=300)
+parser.add_argument('-s','--seed', type=float, default=2023)
 
-args = DotMap(
-    train_file_path='{0}/trains/{0}-train-{1}.csv'.format(network,num),  # path_to_the_train_file_folder
-    test_file_path='{0}/tests/{0}-test-{1}.csv'.format(network,num),  # path_to_the_test_csv_file
-    num_layers=2,
-    channels=64,
-    lr=1e-2,
-    epochs=300,
-    seed=2023
-)
+args = parser.parse_args()
+
+network = args.dataset
+num=args.num
+train_file_path='{0}/trains/{0}-train-{1}.csv'.format(network,num)  # path_to_the_train_file_folder
+test_file_path='{0}/tests/{0}-test-{1}.csv'.format(network,num)  # path_to_the_test_csv_file
 
 if not os.path.exists('{}/trains'.format(network)):
     os.makedirs('{}/trains'.format(network))
@@ -25,6 +30,8 @@ if not os.path.exists('{}/tests'.format(network)):
     os.makedirs('{}/tests'.format(network))
 if not os.path.exists('{}/models'.format(network)):
     os.makedirs('{}/models'.format(network))
+    if not os.path.exists('{}/embeddings'.format(network)):
+        os.makedirs('{}/embeddings'.format(network))
 if not os.path.exists('results'):
     os.makedirs('results')
 
@@ -35,8 +42,8 @@ print(device)
 
 def run(train_file_name: str):
     # load graph
-    g_train = load_graph(args.train_file_path).to(device)
-    g_test = load_graph(args.test_file_path).to(device)
+    g_train = load_graph(train_file_path).to(device)
+    g_test = load_graph(test_file_path).to(device)
 
     num_nodes = (torch.concat(
         [g_train[:2], g_test[:2]], dim=-1).max() + 1).item() #+1
@@ -97,14 +104,9 @@ def run(train_file_name: str):
     model.eval()
     with torch.no_grad():
         z = model(x, train_pos_edge_index, train_neg_edge_index)
-    res_dict.update(test(z, test_pos_edge_index, test_neg_edge_index))
-
-    res_dict['train_file'] = train_file_name
-    return res_dict
+    np.savetxt('{0}/embeddings/{1}-embeddings.csv'.format(network,train_file_name[:-4]), z.detach().cpu().numpy(), fmt='%.2f', delimiter=',')
 
 
 if __name__ == '__main__':
     train_file_name='{0}-train-{1}.csv'.format(network,num)
-    results=[run(train_file_name)]
-    print(results)
-    collect_results(results, save_res=True, suffix='baselines')
+    run(train_file_name)
