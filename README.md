@@ -14,23 +14,36 @@ torch==1.12.0
 torch_geometric==2.3.1
 torch-geometric-signed-directed==0.22.1
 tqdm==4.65.0
-dotmap==1.3.30
 ```
 
 ## Experimental steps
 1. Train an SGCN model using the original training set to generate node embeddings.
 ```
-python embeddingsGenerator.py
+python embeddingsGenerator.py --dataset wiki-RfA --num 1
 ```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You can use different datasets and different training set splits.  
+
 2. Use the node embeddings to generate candidate lists for deleting positive edges, deleting negative edges, adding positive edges, and adding negative edges.
 ```
-python candidatesGenerator.py
+python candidatesGenerator.py --dataset wiki-RfA --num 1
 ```
 3. Set probability threshold parameters and implement data augmentation on the training set data based on the candidate lists.
 ```
-python dataAugmentation.py
+python dataAugmentation.py --pos_del 0.4 --neg_del 0.45 --pos_add 0.93 --neg_add 0.93
 ```
 4. Calculate the difficulty scores of all edges of the training set after data augmentation, and set up a training plan.Use the training set after data augmentation to train baselines according to the training plan.
 ```
-python sgcn_SGA.py
+python sgcn_SGA.py --T 30 --lambda0 0.25
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You can only implement the data augmentation part of SGA by
+```
+python sgcn_SGA.py --useDataAugmentation 1 --useTrainingPlan 0
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or only implement the training plan part of SGA by
+```
+python sgcn_SGA.py --useDataAugmentation 0 --useTrainingPlan 1
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or just implement the baseline by
+```
+python sgcn_SGA.py --useDataAugmentation 0 --useTrainingPlan 0
 ```
