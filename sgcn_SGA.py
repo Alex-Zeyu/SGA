@@ -56,8 +56,8 @@ def run(train_file_name: str):
     m = len(edges[0])
     if flag_t:
         balanceDegree = edgesBalanceDegree_sp(edges)
-        balanceDegree=torch.tensor(balanceDegree)
-        chooseOrder = (-balanceDegree).argsort()
+        difficultyScore=torch.tensor((1-balanceDegree)/2)
+        chooseOrder = difficultyScore.argsort()
 
     # pos & neg edge index
     train_pos_edge_index, train_neg_edge_index = g_train[:2,
