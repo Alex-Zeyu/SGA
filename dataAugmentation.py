@@ -13,6 +13,26 @@ parser.add_argument('-pd', '--pos_del', type=float, default=0)
 parser.add_argument('-nd', '--neg_del', type=float, default=0)
 parser.add_argument('-pa', '--pos_add', type=float, default=1)
 parser.add_argument('-na', '--neg_add', type=float, default=1)
+# SGNN: dataset:pd-nd-pa-na
+# SGCN: bitcoin-alpha:0.3-0.5-0.99-1.0
+#       bitcoin-otc:0.2-0.2-0.98-0.99
+#       Epinions:0.15-0.4-1.0-1.0
+#       Slashdot:0.4-0.4-0.98-0.99
+#       wiki-elec:0.45-0.5-0.95-0.95
+#       wiki-RfA:0.4-0.45-0.98-0.98
+# SiGAT: bitcoin-alpha:0.2-0.2-0.99-1.0
+#       bitcoin-otc:0.2-0.2-0.98-0.99
+#       Epinions:0.12-0.24-0.99-0.99
+#       Slashdot:0.2-0.3-0.98-0.99
+#       wiki-elec:0.1-0.2-0.99-0.99
+#       wiki-RfA:0.15-0.25-0.95-0.95
+# GSGNN: bitcoin-alpha:0.3-0.5-0.99-0.99
+#       bitcoin-otc:0.2-0.2-0.98-0.98
+#       Epinions:0.12-0.24-0.99-0.99
+#       Slashdot:0.4-0.4-0.98-0.99
+#       wiki-elec:0.12-0.24-0.94-0.96
+#       wiki-RfA:0.14-0.25-0.93-0.93
+
 
 args = parser.parse_args()
 
