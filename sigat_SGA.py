@@ -56,8 +56,8 @@ def run(train_file_name: str):
     m = len(edges[0])
     if flag_t:
         balanceDegree = edgesBalanceDegree_sp(edges)
-        balanceDegree=torch.tensor(balanceDegree)
-        chooseOrder = (-balanceDegree).argsort()
+        difficultyScore=torch.tensor((1-balanceDegree)/2)
+        chooseOrder = difficultyScore.argsort()
 
     # model
     seed_everything(args.seed)
