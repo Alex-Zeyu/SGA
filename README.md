@@ -31,7 +31,7 @@ python candidatesGenerator.py --dataset wiki-RfA --num 1
 ```
 3. Set probability threshold parameters and implement data augmentation on the training set data based on the candidate lists.
 ```
-python dataAugmentation.py --pos_del 0.4 --neg_del 0.45 --pos_add 0.93 --neg_add 0.93
+python dataAugmentation.py --pos_del 0.4 --neg_del 0.45 --pos_add 0.98 --neg_add 0.98
 ```
 4. Calculate the difficulty scores of all edges of the training set after data augmentation, and set up a training plan.Use the training set after data augmentation to train baselines according to the training plan.
 ```
