@@ -10,7 +10,7 @@ Signed Graph Neural Networks (SGNNs) are essential for analyzing complex pattern
 ## Requirements
 ```
 numpy==1.24.2
-scipy==1.11.2
+scipy==1.11.4
 pandas==2.1.0
 torch==1.12.0
 torch_geometric==2.3.1
