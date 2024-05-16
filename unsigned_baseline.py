@@ -236,7 +236,7 @@ class GCNSign(torch.nn.Module):
 
 # %%
 # utility functions
-def load_data(args, round: int) -> dict:
+def load_data(args, rnd_i: int) -> dict:
     """Load data from csv file and return as dictionary
     Returns:
         dict: {
@@ -247,19 +247,19 @@ def load_data(args, round: int) -> dict:
         }
     """
     dataset = args.dataset
-    path_test = os.path.join(dataset, "tests", f"{dataset}-test-{round}.csv")
+    path_test = os.path.join(dataset, "tests", f"{dataset}-test-{rnd_i}.csv")
 
     if args.augment:
-        path_train = glob(os.path.join(dataset, f"augset_{round}", "*.csv"))[0]
+        path_train = glob(os.path.join(dataset, f"augset_{rnd_i}", "*.csv"))[0]
     else:
-        path_train = os.path.join(dataset, "trains", f"{dataset}-train-{round}.csv")
+        path_train = os.path.join(dataset, "trains", f"{dataset}-train-{rnd_i}.csv")
     # read data in csv format
     train_ds = pd.read_csv(path_train, names=["src", "dst", "sign"]).values
     test_ds = pd.read_csv(path_test, names=["src", "dst", "sign"]).values
     # convert to 0-based index
     base = min(train_ds[:, :2].min(), test_ds[:, :2].min())
-    train_ds -= base
-    test_ds -= base
+    train_ds[:, :2] -= base
+    test_ds[:, :2] -= base
     # convert shape to (3, n_edges)
     train_ds = torch.from_numpy(train_ds).t()
     test_ds = torch.from_numpy(test_ds).t()
