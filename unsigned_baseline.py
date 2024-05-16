@@ -309,9 +309,9 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", type=str, default="bitcoin-alpha")
     parser.add_argument("--seed", type=int, default=2023)
     parser.add_argument("--n_layers", type=int, default=2)
-    parser.add_argument("--channels", type=int, default=8)
+    parser.add_argument("--channels", type=int, default=64)
     parser.add_argument("--lr", type=float, default=1e-2)
-    parser.add_argument("--epochs", type=int, default=30)
+    parser.add_argument("--epochs", type=int, default=500)
     parser.add_argument("--round", type=int, default=5)
     parser.add_argument("--model", type=str, choices=["gat", "gcn"], default="gcn")
     # SGA arguments
